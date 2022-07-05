@@ -1,14 +1,13 @@
 import { Sequelize } from "sequelize-typescript";
 
 import  User  from "models/user.model";
+import Author from "models/author.model";
+import Book from "models/book.model";
 
-const connection = new Sequelize({
-	dialect: "mariadb",
-	host: "localhost",
-	username: "root",
-	password: "",
-	database: "api_express",
-	models: [User],
+const sequelize = new Sequelize({
+	dialect: "sqlite",
+	storage: "./db.sqlite", // or ':memory:'
+	models: [User,Author,Book],
 });
 
-export default connection;
+export default sequelize;

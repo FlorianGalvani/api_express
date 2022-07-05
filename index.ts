@@ -1,15 +1,20 @@
 // @/main.ts
 import "reflect-metadata";
-import express, { Request, Response } from "express";
+import express from "express";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 import connection from "config/db.config";
 import userRouter from "routes/user.route";
+import bodyParser from "body-parser";
 import authenticationRouter from "routes/authentication.route";
 import { validateToken } from "middlewares/token.middleware";
-
+import bookRouter from "routes/book.route";
+import authorRouter from "routes/author.route";
 
 const app = express();
 
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 app.use(express.json());
 app.use(cookieParser());
 
@@ -18,7 +23,12 @@ app.use("/auth", authenticationRouter);
 
 //Protected routes
 app.use(validateToken);
+
 app.use("/user", userRouter);
+app.use("/book", bookRouter);
+app.use("/author", authorRouter);
+
+app.use(cors());
 
 const start = async (): Promise<void> => {
 
